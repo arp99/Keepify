@@ -5,28 +5,24 @@ import tag from '../assets/tag.png'
 
 import {useState} from 'react'
 
-export default function TodoItem({ title , txtValue , id , setItems , items , setPinnedTodos , pinnedTodos}){
+export default function TodoItem({ title , txtValue , id , setItems , items , setPinnedTodos , pinnedTodos }){
     const [txtvalue , setTxtValue] = useState(txtValue)
     const [titleValue , setTitleValue] = useState(title)
-    // const [pinned , setPinned ] = useState(false)
 
     const onChangeHandler = e =>{
-        const targetId = e.target.id , value = e.target.value;
-        if(targetId === 'titleInput')
+        const targetName = e.target.name , value = e.target.value;
+        if(targetName === 'titleInput')
             setTitleValue(value);
-        else if(targetId === 'todoInput')
+        else if(targetName === 'todoInput')
             setTxtValue(value);
     }
     
     const pinHandler = () => {
  
         const newItems = items.filter(item=> item.id!== id);
-        // console.log(newItems)
-        const newPinned = items.filter(item=> item.id === id);
-        console.log({...newPinned , pinned: true})
+        const newPinned = items.find(item=> item.id === id);
         setItems(newItems)
         setPinnedTodos([...pinnedTodos , {...newPinned , pinned: true}])
-        console.log("title inside todoItem: ",titleValue ,"txtvalue inside todoItem: ",txtvalue);
     }
 
     const onBlurHandler = () =>{
@@ -40,10 +36,11 @@ export default function TodoItem({ title , txtValue , id , setItems , items , se
         })
         setItems(newItems)
     }
+
     return(
         <div className="todoContainer" onBlur={onBlurHandler} key={id}>
-            <input type="text" name="" id="titleInput" value={titleValue} onChange={onChangeHandler} placeholder="Enter Title"/>
-            <textarea type="text" name="" id="todoInput" value={txtvalue} onChange={onChangeHandler}/>
+            <input type="text" name="titleInput" className="titleInput" value={titleValue} onChange={onChangeHandler} placeholder="Enter Title"/>
+            <textarea type="text" name="todoInput" className="todoInput" value={txtvalue} onChange={onChangeHandler}/>
             <div className="labels"></div>
             <div className="icons-group">
                 <button className="btn btn_pin"><img src={pin} alt="pin" className="icon" onClick={pinHandler}/></button>
