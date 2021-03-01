@@ -37,6 +37,15 @@ export default function TodoItem({ title , txtValue , id , setItems , items , se
         setItems(newItems)
     }
 
+    const deleteHandler = () =>{
+        //so the item can be either in pinned or not pinned , so search in both and delete
+        const newPinned = pinnedTodos.filter(item=>item.id!== id);
+        const newItems = items.filter(item => item.id !== id)
+
+        setItems(newItems)
+        setPinnedTodos(newPinned)
+    }
+
     return(
         <div className="todoContainer" onBlur={onBlurHandler} key={id}>
             <input type="text" name="titleInput" className="titleInput" value={titleValue} onChange={onChangeHandler} placeholder="Enter Title"/>
@@ -46,7 +55,7 @@ export default function TodoItem({ title , txtValue , id , setItems , items , se
                 <button className="btn btn_pin"><img src={pin} alt="pin" className="icon" onClick={pinHandler}/></button>
                 <button className="btn btn_label"><img src={colorPallete} alt="color" className="icon"/></button>
                 <button className="btn btn_label"><img src={tag} alt="tag" className="icon"/></button>
-                <button className="btn btn_label"><img src={bin} alt="bin" className="icon"/></button>
+                <button className="btn btn_label"><img src={bin} alt="bin" className="icon" onClick={deleteHandler}/></button>
             </div>
         </div>
     )
