@@ -12,6 +12,7 @@
   border: none;
   outline:none;
   transition: 0.2s;
+  position: relative;
 }
 .btn_text{
   border-radius: 50%;
@@ -22,7 +23,6 @@
   transition: 0.2s;
 }
 .todoContainer{
-  /* width: fit-content; */
   width: 20rem;
   padding: 1rem;
   border-radius: 0.5rem;
@@ -35,7 +35,14 @@
 .icons-group{
   visibility: hidden;
 }
-#todoInput{
+.titleInput{
+  background:transparent;
+  border:none;
+  border-bottom: 2px solid #b1b4b4;
+  outline: none;
+  color: #070707;
+}
+.todoInput{
   background: transparent;
   width: 90%;
   max-height: 5rem;
@@ -44,9 +51,10 @@
   word-wrap: break-word;
   border:none;
   outline:none;
+  color: #070707;
   transition: 1s;
 }
-#todoInput:focus{
+.todoInput:focus{
   border-bottom: 1px solid #b1b4b4;
 }
 .btn_text:hover{
@@ -59,4 +67,22 @@
 }
 .icon{
   width: 1rem;
+}
+.color_input{
+  opacity: 0;
+  width: 35px;
+  height: 35px;
+  position: absolute;
+  top:2px;
+  left: 2px;
+}
+.color_input:hover{
+  cursor: pointer;
+}
+.wrapper{
+  text-align: left;
+}
+.all_todo_container , .pinned_todo_container{
+  width: 90vw;
+  display: flex;
 }
