@@ -15,6 +15,7 @@ export default function TodoInput({ items , setItems }){
             edited:new Date().toLocaleTimeString(),
             pinned: false,
             labels: [],
+            color: 'transparent'
 
     })
 

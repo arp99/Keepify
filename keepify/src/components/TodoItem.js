@@ -5,7 +5,7 @@ import tag from '../assets/tag.png'
 
 import {useState} from 'react'
 
-export default function TodoItem({ title , txtValue , id , setItems , items , setPinnedTodos , pinnedTodos }){
+export default function TodoItem({ title , txtValue , id , setItems , items , setPinnedTodos , pinnedTodos ,color , pinned}){
     const [txtvalue , setTxtValue] = useState(txtValue)
     const [titleValue , setTitleValue] = useState(title)
 
@@ -22,6 +22,7 @@ export default function TodoItem({ title , txtValue , id , setItems , items , se
         const newItems = items.filter(item=> item.id!== id);
         const newPinned = items.find(item=> item.id === id);
         const alreadyPinned = pinnedTodos.find(item=> item.id === id);
+        
         if(alreadyPinned === undefined){
             setItems(newItems)
             setPinnedTodos([...pinnedTodos , {...newPinned , pinned: true}])
@@ -52,17 +53,40 @@ export default function TodoItem({ title , txtValue , id , setItems , items , se
         setItems(newItems)
         setPinnedTodos(newPinned)
     }
-
+    const mapArray = (itemArr , colorValue) =>{
+        return (
+            itemArr.map(item=>{
+                if(item.id === id){
+                    return(
+                        {
+                            ...item , color:colorValue
+                        }
+                    )
+                }return item
+            })
+        )
+    }
+    const colorChangeHandler = e =>{
+        //check item in both pinned and all to update its color
+        const colorValue = e.target.value;
+        if(pinned === true){
+            setPinnedTodos(mapArray(pinnedTodos , colorValue))
+        }
+        else{
+            setItems(mapArray(items , colorValue))
+        }
+    }
+    
     return(
-        <div className="todoContainer" onBlur={onBlurHandler} key={id}>
+        <div className="todoContainer" onBlur={onBlurHandler} key={id} style={{background:`${color}`}}>
             <input type="text" name="titleInput" className="titleInput" value={titleValue} onChange={onChangeHandler} placeholder="Enter Title"/>
             <textarea type="text" name="todoInput" className="todoInput" value={txtvalue} onChange={onChangeHandler}/>
             <div className="labels"></div>
             <div className="icons-group">
-                <button className="btn btn_pin"><img src={pin} alt="pin" className="icon" onClick={pinHandler}/></button>
-                <button className="btn btn_label"><img src={colorPallete} alt="color" className="icon"/></button>
+                <button className="btn btn_pin" onClick={pinHandler}><img src={pin} alt="pin" className="icon" /></button>
+                <button className="btn btn_label"><input type="color" className="color_input" onChange={colorChangeHandler}/><img src={colorPallete} alt="color" className="icon"/></button>
                 <button className="btn btn_label"><img src={tag} alt="tag" className="icon"/></button>
-                <button className="btn btn_label"><img src={bin} alt="bin" className="icon" onClick={deleteHandler}/></button>
+                <button className="btn btn_label" onClick={deleteHandler}><img src={bin} alt="bin" className="icon" /></button>
             </div>
         </div>
     )
