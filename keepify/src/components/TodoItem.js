@@ -21,8 +21,15 @@ export default function TodoItem({ title , txtValue , id , setItems , items , se
  
         const newItems = items.filter(item=> item.id!== id);
         const newPinned = items.find(item=> item.id === id);
-        setItems(newItems)
-        setPinnedTodos([...pinnedTodos , {...newPinned , pinned: true}])
+        const alreadyPinned = pinnedTodos.find(item=> item.id === id);
+        if(alreadyPinned === undefined){
+            setItems(newItems)
+            setPinnedTodos([...pinnedTodos , {...newPinned , pinned: true}])
+        }else{
+            const newPinnedItems = pinnedTodos.filter(item => item.id!== id);
+            setPinnedTodos([...newPinnedItems])
+            setItems([...items , {...alreadyPinned , pinned:false}])
+        }
     }
 
     const onBlurHandler = () =>{
